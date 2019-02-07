@@ -1,0 +1,27 @@
+<div class="maintenance-mask">
+  <div class="maintenance-mask-content">
+    <app-form-area
+      [form]="form"
+      [fields]="fields"
+      [row]="row"
+      [formErrors]="formErrors"
+      [isNamedMasterData]="isNamedMasterData"
+      [showTenantSelection]="showTenantSelection"
+      [selectedTenant]="selectedTenant"
+      [tableContex]="tableContext"
+      (numberValidation)="validateNumber($event)"
+      (dateValidation)="validateDate($event)">
+    </app-form-area>
+  </div>
+
+  <app-bottom-buttons
+    [form]="form"
+    [cancelButton]="true"
+    [saveButton]="true"
+    [deleteButton]="deleteButtonVisible"
+    (cancel)="onCancel()"
+    (submit)="onSubmit()"
+    (del)="onDelete()">
+  </app-bottom-buttons>
+
+</div>

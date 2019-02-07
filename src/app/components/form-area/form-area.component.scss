@@ -1,0 +1,98 @@
+.maintenance-form{
+  padding-bottom: 35px;
+  padding-top: 20px;
+
+  .maintenance-field{
+    //height: 15px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .maintenance-tenant-select{
+    margin-left: 24px;
+    margin-bottom: 15px;
+  }
+  .field-label{
+    display: inline-block;
+    width: 100%;
+    font-weight: 600;
+    color: #333333;
+  }
+  .mat-input-wrapper{
+    margin-top: 0;
+    padding-bottom:0;
+  }
+  .mat-select{
+    margin-top: -5px;
+    display: block;
+  }
+  .errorMessage{
+    margin-top: -5px;
+    color: red;
+    font-size: 10px;
+  }
+  .notValid{
+    .mat-input-underline{
+      border-color: red;
+    }
+  }
+  .mdl-cell--6-col{
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+  .mdl-grid{
+    padding-top: 0;
+    padding-bottom: 2px;
+  }
+}
+.maintenance-mask {
+  .maintenance-mask-content{
+    border: 1px solid rgba(0, 0, 0, 0.12);
+  }
+  .maintenance-mask-footer {
+    display: block;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.24);
+    padding: 10px;
+    text-align: right;
+    .mdl-button{
+      margin-right: 5px;
+      &:last-child{
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+.slide-toggle {
+  margin: 8px 0;
+}
+
+
+.multi-select-custom {
+  margin-bottom: 7px;
+  .below{
+    border:none;
+    border-bottom: 1px solid #ddd;
+    &:focus{
+      outline-width: 0;
+    }
+  }
+  .multiple{
+    padding-bottom: 2px;
+    .option{
+      font-size: 11px;
+    }
+    &> div.option span.deselect-option{
+      font-size: 11px;
+    }
+    input{
+      font-size: 12px;
+    }
+  }
+  select-dropdown{
+    .options{
+      ul li{
+        min-height: 32px;
+      }
+    }
+  }
+}

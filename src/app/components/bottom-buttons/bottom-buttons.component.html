@@ -1,0 +1,19 @@
+<div class="maintenance-mask-footer text-right">
+
+  <button [hidden]="!cancelButton" [disabled]="form.disabled || !form.dirty" (click)="onCancel()" class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect' title="Discard Changes">
+    <span class="material-icons">cancel</span>
+  </button>
+
+  <button [hidden]="!saveButton" [disabled]="form.disabled || !form.dirty" (click)="onSubmit()" class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect' title="Save">
+    <span class="material-icons">save</span>
+  </button>
+
+  <button [hidden]="!cloneButton" [disabled]="form.disabled" (click)="onClone()" class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect' title="Clone">
+    <span class="material-icons">content_copy</span>
+  </button>
+
+  <button [hidden]="!deleteButton" [disabled]="form.disabled" (click)="onDelete()" class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect' title="Delete">
+    <span class="material-icons">delete</span>
+  </button>
+
+</div>
