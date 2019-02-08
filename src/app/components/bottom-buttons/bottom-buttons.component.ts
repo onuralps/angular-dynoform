@@ -22,15 +22,12 @@ export class BottomButtonsComponent implements OnInit {
 
   @Input() deleteButton = false;
 
-  @Input() cloneButton = false;
-
   @Output() submit: EventEmitter<any> = new EventEmitter<any>();
   @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
   @Output() del: EventEmitter<any> = new EventEmitter<any>();
-  @Output() clone: EventEmitter<any> = new EventEmitter<any>();
 
-
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
@@ -45,10 +42,6 @@ export class BottomButtonsComponent implements OnInit {
 
   public onDelete() {
     this.del.emit();
-  }
-
-  public onClone() {
-    this.clone.emit();
   }
 
 }

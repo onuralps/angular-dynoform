@@ -1,13 +1,14 @@
 /* tslint:disable:no-access-missing-member */
 
 import * as _ from 'underscore';
-import {FieldControlService} from '../../services/configuration-service';
+import {ConfigurationService} from '../../services/configuration-service';
 import {CustomizationService} from '../../services/customization.service';
 import {ValidationService} from '../../services/validation.service';
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {TableContext} from '../../models/table-context';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
+import {MasterDataTable} from '../../models/object-config-model';
 
 /**
  * Component that creates and controls mainenance mask area.
@@ -21,9 +22,14 @@ import {ActivatedRoute, Router} from '@angular/router';
   selector: 'app-form',
   templateUrl: 'form.component.html',
   styleUrls: ['form.component.scss'],
-  providers: [FieldControlService, ValidationService, CustomizationService]
+  providers: [ConfigurationService, ValidationService, CustomizationService]
 })
 export class FormComponent implements OnInit {
+
+  @Input() object: any;
+
+  @Input() config: MasterDataTable;
+
 
   /**
    * Fields of the Form
@@ -122,7 +128,7 @@ export class FormComponent implements OnInit {
    * @param confirmationService
    */
   constructor(protected route: ActivatedRoute,
-              protected fieldControlService: FieldControlService,
+              protected fieldControlService: ConfigurationService,
               public fb: FormBuilder,
               private router: Router,
               protected validationService: ValidationService,
@@ -134,16 +140,14 @@ export class FormComponent implements OnInit {
   public isDirty(): boolean {
     return this.form.dirty;
   }
+
   /**
    * Initiates component. subscribes to row selection and loads new selected row every time
    *
    * @memberOf FormComponent
    */
   ngOnInit() {
-    this.route.data
-      .subscribe((data: { mdObject: any }) => {
-        this.loadForm(data.mdObject);
-      });
+    this.loadForm(this.object);
   }
 
   /**
@@ -156,6 +160,7 @@ export class FormComponent implements OnInit {
    */
   protected loadForm(row: any) {
     this.row = row;
+    this.tableContext = new TableContext(this.config);
     this.formOperations();
   }
 

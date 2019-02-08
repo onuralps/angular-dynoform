@@ -1,71 +1,23 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
-  <div>
-    <div class="field-group maintenance-form">
-      <div class="form-row mdl-grid">
-        <div *ngFor="let field of fields" class="mdl-cell mdl-cell--6-col maintenance-field">
-          <div [formGroup]="form" class="form-group">
-            <div [ngSwitch]="field.controlType" class="block" [ngClass]="{'notValid': formErrors[field.key]}">
-              <div class="mdl-grid" [id]="'maintenance-'+field.key">
-                <div class="mdl-cell mdl-cell--6-col">
-                  <label class="field-label" [attr.for]="field.key">{{field.label}}<span *ngIf="field.required"> (*)</span></label>
-                  <div class="errorMessage" *ngIf="formErrors[field.key]">{{formErrors[field.key]}}</div>
-                </div>
-                <div class="mdl-cell mdl-cell--6-col">
-                  <!-- Text field -->
-                  <md-input-container class="full-width" *ngSwitchCase="'textbox'">
-                    <!--no textarea-->
-                    <input [maxlength]="field.constraints.maxLength" *ngIf="field.type !== 'textarea'"
-                           [appOnlyNumber]="field.constraints.type == 'integer'"
-                           (change)="validateNumber($event, field)" [appDecimalNumber]="field.constraints.type == 'decimal'"
-                           mdInput placeholder="" [id]="field.key" [type]="field.type" [min]="field.constraints.min" [max]="field.constraints.max"
-                           [formControlName]="field.key"/>
-                    <!--textarea-->
-                    <textarea *ngIf="field.type === 'textarea'" mdInput placeholder="" [id]="field.key" [value]="field.value"
-                              [formControlName]="field.key"></textarea>
-                  </md-input-container>
-                  <!-- Date field -->
-                  <div class="datepicker-container" *ngSwitchCase="'datepicker'">
-                    <md-input-container class="full-width">
-                      <input [options]="dateOptions" (inputFieldChanged)="validateDate($event, field)" class="form-control" style="float:none"
-                             placeholder="" mdInput ngx-mydatepicker name="myDate"
-                             [formControlName]="field.key" #dp="ngx-mydatepicker"/>
-                    </md-input-container>
-
-                    <span class="input-group-btn">
-                          <button type="button" class="mdl-button mdl-js-button mdl-button--icon datepicker-clear"
-                                  [disabled]="form.controls[field.key].disabled"
-                                  (click)="dp.clearDate()">
-                            <span class="material-icons">clear</span>
-                          </button>
-                          <button type="button" class="mdl-button mdl-js-button mdl-button--icon datepicker-toggle"
-                                  [disabled]="form.controls[field.key].disabled"
-                                  (click)="dp.toggleCalendar()">
-                            <span class="material-icons">date_range</span>
-                          </button>
-                        </span>
-                  </div>
-                  <!-- Select field -->
-                  <div *ngSwitchCase="'dropdown'">
-                    <ng-select class="multi-select-custom" *ngIf="field.multiple" [options]="field.options" [multiple]="true"
-                               [formControlName]="field.key">
-
-                    </ng-select>
-                    <md-select *ngIf="!field.multiple" class="full-width" placeholder="" [id]="field.key" [formControlName]="field.key">
-                      <md-option *ngFor="let opt of field.options" [value]="opt.value">
-                        {{ opt.value }}
-                      </md-option>
-                    </md-select>
-                  </div>
-                  <!--Checkbox-->
-                  <md-checkbox *ngSwitchCase="'boolean'" [checked]="field.value" [formControlName]="field.key" [id]="field.key"></md-checkbox>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+  <div class="form-row mdl-grid">
+    <div *ngFor="let field of fields" class="mdl-cell mdl-cell--6-col maintenance-field">
+      <div [ngClass]="{'notValid': formErrors[field.key]}" [ngSwitch]="field.controlType" class="block">
+        <mat-form-field *ngSwitchCase="'textbox'">
+          <input [formControlName]="field.key" matInput placeholder="test"/>
+        </mat-form-field>
+        <mat-form-field *ngSwitchCase="'datepicker'">
+          <input [formControlName]="field.key" [matDatepicker]="picker" matInput placeholder="Choose a date">
+          <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-checkbox *ngSwitchCase="'boolean'" [formControlName]="field.key">{{field.label}}</mat-checkbox>
+        <mat-form-field *ngSwitchCase="'dropdown'">
+          <mat-select placeholder="Select">
+            <mat-option value="option">Option</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-
     </div>
   </div>
 </form>
+

@@ -1,5 +1,5 @@
 import {FieldBase} from './field-base';
-import {TableContext} from '../../../../shared/services/table-context';
+import {TableContext} from './table-context';
 
 
 /**

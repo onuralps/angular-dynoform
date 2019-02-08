@@ -1,5 +1,5 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {FormGroup} from '@angular/forms';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {FormControl, FormGroup} from '@angular/forms';
 import {TableContext} from '../../models/table-context';
 
 /**
@@ -38,10 +38,7 @@ export class FormAreaComponent implements OnInit {
   @Output() selectTenant: EventEmitter<any> = new EventEmitter<any>();
   @Output() ignore: EventEmitter<any> = new EventEmitter<any>();
 
-
-  @ViewChild('dp')
-  public dp: ElementRef;
-
+  public date = new FormControl(new Date());
 
   constructor() { }
 

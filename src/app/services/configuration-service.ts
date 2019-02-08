@@ -1,4 +1,3 @@
-
 import {Injectable} from '@angular/core';
 import {FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {MasterDataAttribute, MasterDataEntityAttribute, MasterDataEnumAttribute, MasterDataTable} from '../models/object-config-model';
@@ -17,10 +16,10 @@ import {DateService} from './date.service';
  * Service that has required operations to create a dynamic form
  *
  * @export
- * @class FieldControlService
+ * @class ConfigurationService
  */
 @Injectable()
-export class FieldControlService {
+export class ConfigurationService {
 
   constructor(private dateService: DateService) {
   }
@@ -45,6 +44,58 @@ export class FieldControlService {
       }
     }
     return fields;
+  }
+
+  /**
+   * Generates a formGroup from given fields array row and tenant
+   *
+   * @param fields
+   * @param row
+   * @param table
+   * @param tenants
+   * @returns {FormGroup}
+   */
+  public toFormGroup(fields: FieldBase<any>[], row: any, table: MasterDataTable) {
+    const group: any = {};
+
+    fields.forEach(field => {
+      if (field instanceof BooleanField) {
+        group[field.key] = field.required ? new FormControl(field.value ? field.value : false, Validators.required)
+          : new FormControl(field.value ? field.value : false);
+
+      } else if (field instanceof TexBoxField && field.constraints !== undefined) {
+        const validators: ValidatorFn[] = [];
+        if (field.constraints.required) {
+          validators.push(Validators.required);
+        }
+        if (field.constraints.minLength) {
+          validators.push(Validators.minLength(field.constraints.minLength));
+        }
+        if (field.constraints.maxLength) {
+          validators.push(Validators.maxLength(field.constraints.maxLength));
+        }
+        if (field.constraints.regex) {
+          validators.push(Validators.pattern(new RegExp(field.constraints.regex)));
+        }
+        group[field.key] = new FormControl(field.value, validators);
+
+      } else if (field instanceof DropdownField && field.multiple) {
+        group[field.key] = field.required ? new FormControl(field.value ? field.value : [], Validators.required)
+          : new FormControl(field.value);
+      } else if (field instanceof DatePickerField) {
+        group[field.key] = new FormControl(field.value ? new Date(field.value) : new Date());
+      } else if (field.controlType === 'exclusion') {
+        group[field.key] = new FormControl(field.value ? field.value : []);
+      } else {
+        group[field.key] = field.required ? new FormControl(field.value ? field.value : '', Validators.required)
+          : new FormControl(field.value);
+      }
+
+      if (!field.editable) {
+        group[field.key].disable();
+      }
+    });
+    return new FormGroup(group);
   }
 
   private createField(attribute: MasterDataAttribute, row: any, table: MasterDataTable): FieldBase<any> {
@@ -74,7 +125,7 @@ export class FieldControlService {
         }));
         break;
       }
-      case 'enum': {
+      case 'select': {
         const enumAttribute = attribute as MasterDataEnumAttribute;
         const enumOptions: { value: string, label: string }[] = [];
         if (!enumAttribute.multiple) {
@@ -97,7 +148,7 @@ export class FieldControlService {
       case 'date':
       case 'datetime': {
         field = new DatePickerField(Object.assign(attributeOptions, {
-          value: this.dateService.utcTimestampToMyDate(row[attribute.name])
+          value: row[attribute.name]
         }));
         break;
       }
@@ -161,56 +212,6 @@ export class FieldControlService {
     }
 
     return field;
-  }
-
-  /**
-   * Generates a formGroup from given fields array row and tenant
-   *
-   * @param fields
-   * @param row
-   * @param table
-   * @param tenants
-   * @returns {FormGroup}
-   */
-  public toFormGroup(fields: FieldBase<any>[], row: any, table: MasterDataTable) {
-    const group: any = {};
-
-    fields.forEach(field => {
-      if (field instanceof BooleanField) {
-        group[field.key] = field.required ? new FormControl(field.value ? field.value : false, Validators.required)
-          : new FormControl(field.value ? field.value : false);
-
-      } else if (field instanceof TexBoxField && field.constraints !== undefined) {
-        const validators: ValidatorFn[] = [];
-        if (field.constraints.required) {
-          validators.push(Validators.required);
-        }
-        if (field.constraints.minLength) {
-          validators.push(Validators.minLength(field.constraints.minLength));
-        }
-        if (field.constraints.maxLength) {
-          validators.push(Validators.maxLength(field.constraints.maxLength));
-        }
-        if (field.constraints.regex) {
-          validators.push(Validators.pattern(new RegExp(field.constraints.regex)));
-        }
-        group[field.key] = new FormControl(field.value, validators);
-
-      } else if (field instanceof DropdownField && field.multiple) {
-        group[field.key] = field.required ? new FormControl(field.value ? field.value : [], Validators.required)
-          : new FormControl(field.value);
-      } else if (field.controlType === 'exclusion') {
-        group[field.key] = new FormControl(field.value ? field.value : []);
-      } else {
-        group[field.key] = field.required ? new FormControl(field.value ? field.value : '', Validators.required)
-          : new FormControl(field.value);
-      }
-
-      if (!field.editable) {
-        group[field.key].disable();
-      }
-    });
-    return new FormGroup(group);
   }
 
   /**

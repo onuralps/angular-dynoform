@@ -1,0 +1,59 @@
+{
+  "name": "test",
+  "readonly": false,
+  "groups": [
+    {
+      "name": "group",
+      "attributes": [
+        {
+          "name": "test",
+          "label": "test",
+          "constraints": {},
+          "type": "text",
+          "prop": "test",
+          "sortable": true,
+          "filterable": true,
+          "editable": true,
+          "visible": true,
+          "shownOnMaintenance": true
+        },
+        {
+          "name": "test2",
+          "label": "test2",
+          "constraints": {},
+          "type": "date",
+          "prop": "test2",
+          "sortable": true,
+          "filterable": true,
+          "editable": true,
+          "visible": true,
+          "shownOnMaintenance": true
+        },
+        {
+          "name": "test3",
+          "label": "test3",
+          "constraints": {},
+          "type": "boolean",
+          "prop": "test3",
+          "sortable": true,
+          "filterable": true,
+          "editable": true,
+          "visible": true,
+          "shownOnMaintenance": true
+        },
+        {
+          "name": "test4",
+          "label": "test4",
+          "constraints": {},
+          "type": "select",
+          "prop": "test4",
+          "sortable": true,
+          "filterable": true,
+          "editable": true,
+          "visible": true,
+          "shownOnMaintenance": true
+        }
+      ]
+    }
+  ]
+}

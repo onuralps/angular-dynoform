@@ -6,7 +6,7 @@
  * @template T
  */
 
-export class FieldBase<T>{
+export class FieldBase<T> {
   public value: T;
   public key: string;
   public label: string;
