@@ -20,13 +20,16 @@ import {DateService} from './services/date.service';
 import {ValidationService} from './services/validation.service';
 import {CustomizationService} from './services/customization.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatMomentDateModule} from '@angular/material-moment-adapter';
+import { DateTimeComponent } from './components/date-time/date-time.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FormAreaComponent,
     BottomButtonsComponent,
-    FormComponent
+    FormComponent,
+    DateTimeComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +41,9 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
-    MatSelectModule
+    MatSelectModule,
+    MatNativeDateModule,
+    MatMomentDateModule
   ],
   providers: [ConfigurationService, DateService, ValidationService, CustomizationService, MatDatepickerModule],
   bootstrap: [AppComponent]

@@ -1,0 +1,10 @@
+<mat-form-field>
+  <input matInput [matDatepicker]="dp" placeholder="Verbose datepicker" [value]="date" [disabled]="disabled" (dateChange)="onDateChange($event)">
+  <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+  <mat-datepicker #dp></mat-datepicker>
+</mat-form-field>
+<mat-form-field>
+  <mat-select placeholder="Select" [(value)]="time" [disabled]="disabled" (valueChange)="onTimeChange($event)">
+    <mat-option *ngFor="let abc of times" [value]="abc">{{('00' + abc.hours).slice(-2)}}:{{('00' + abc.minutes).slice(-2)}}</mat-option>
+  </mat-select>
+</mat-form-field>

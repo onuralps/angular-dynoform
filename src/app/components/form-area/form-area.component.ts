@@ -38,8 +38,6 @@ export class FormAreaComponent implements OnInit {
   @Output() selectTenant: EventEmitter<any> = new EventEmitter<any>();
   @Output() ignore: EventEmitter<any> = new EventEmitter<any>();
 
-  public date = new FormControl(new Date());
-
   constructor() { }
 
   ngOnInit() {

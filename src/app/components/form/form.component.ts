@@ -6,9 +6,16 @@ import {CustomizationService} from '../../services/customization.service';
 import {ValidationService} from '../../services/validation.service';
 import {Component, Input, OnInit} from '@angular/core';
 import {TableContext} from '../../models/table-context';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MasterDataTable} from '../../models/object-config-model';
+import * as _moment from 'moment';
+import {default as _rollupMoment} from 'moment';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material';
+import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
+
+const moment = _rollupMoment || _moment;
+
 
 /**
  * Component that creates and controls mainenance mask area.
@@ -22,7 +29,10 @@ import {MasterDataTable} from '../../models/object-config-model';
   selector: 'app-form',
   templateUrl: 'form.component.html',
   styleUrls: ['form.component.scss'],
-  providers: [ConfigurationService, ValidationService, CustomizationService]
+  providers: [ConfigurationService, ValidationService, CustomizationService,
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+  ]
 })
 export class FormComponent implements OnInit {
 
@@ -215,6 +225,8 @@ export class FormComponent implements OnInit {
     if (this.tableContext.table && this.tableContext.table.readonly) {
       this.form.disable();
     }
+    // @ts-ignore
+    this.form.addControl('date', new FormControl(new Date()));
     const extension = this.customizationService.getExtensionPoint(this.tableContext.table.name);
     if (extension) {
       extension.customize(this.row, this.form, this.fields, this.tableContext);
